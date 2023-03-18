@@ -14,6 +14,10 @@ class ChatGPT
         $this->message_history = $message_history;
     }
 
+    public function set_system_message( string $system_message ) {
+        $this->system_message = $system_message;
+    }
+
     function send_message( string $message ): string {    
         $messages = [];
     

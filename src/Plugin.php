@@ -8,8 +8,12 @@ class Plugin
     private function __construct( string $api_key ) {
         $this->add_actions();
 
+        $chat_gpt = new ChatGPT( $api_key );
+
         ChatEndpoint::init(
-            new ChatGPT( $api_key )
+            $chat_gpt,
+            new PageLookup( $chat_gpt ),
+            new InformationLookup( $chat_gpt ),
         );
 
         $this->enqueue_scripts();
