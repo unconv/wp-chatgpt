@@ -8,9 +8,14 @@
     width: 55px;
     height: 55px;
     padding: 0;
-    text-indent: -9999px;
     border: 0;
     z-index: 9999;
+}
+
+.wpgpt-toggle .dashicons {
+    font-size: 28px;
+    position: relative;
+    left: -5px;
 }
 
 .wpgpt-chatbox {
@@ -30,13 +35,15 @@
 .wpgpt-chat-messages {
     overflow: auto;
     height: calc( 100% - 60px );
+    border-radius: 15px;;
 }
 
 .wpgpt-chat-message {
-    border-radius: 10px;
+    border-radius: 15px;
     background: #ccc;
     margin-bottom: 10px;
     padding: 10px;
+    font-size: 0.9em;
 }
 
 .wpgpt-chat-message.user {
@@ -45,6 +52,7 @@
 
 .wpgpt-chat-input-wrapper {
     position: relative;
+    top: 10px;
 }
 
 .wpgpt-chat-input {
@@ -54,7 +62,7 @@
     font-family: sans-serif;
     height: 50px;
     border: 1px solid #ccc;
-    border-radius: 10px;
+    border-radius: 15px;
     resize: none;
     padding-right: 50px;
     line-height: 1.2em;
@@ -63,7 +71,7 @@
 .wpgpt-send {
     position: absolute;
     right: 7px;
-    top: 7px;
+    top: 6px;
     padding: 5px;
     border-radius: 10px;
 }
