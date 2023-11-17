@@ -6,15 +6,20 @@ class Plugin
     private static Plugin $instance;
 
     private function __construct( string $api_key ) {
+        if( session_status() === PHP_SESSION_NONE ) {
+            session_start();
+        }
+
         $this->add_actions();
 
-        $chat_gpt = new ChatGPT( $api_key );
+        $settings = get_option( "wp_gpt_settings" );
 
-        ChatEndpoint::init(
-            $chat_gpt,
-            new PageLookup( $chat_gpt ),
-            new InformationLookup( $chat_gpt ),
-        );
+        $chat_gpt = new ChatGPT( $api_key );
+        $chat_gpt->model = $settings["model"] ?? "gpt-3.5-turbo";
+
+        ChatEndpoint::init( $chat_gpt );
+
+        new SettingsPage();
 
         $this->enqueue_scripts();
         $this->enqueue_styles();
@@ -53,6 +58,16 @@ class Plugin
                 <div class="wpgpt-chat-message assistant">
                     Hello! I am your assistant.
                 </div>
+                <?php
+                $messages = $_SESSION['message_history'] ?? [];
+                foreach( $messages as $message ) {
+                    ?>
+                    <div class="wpgpt-chat-message <?php echo esc_attr( $message['role'] ); ?>">
+                        <?php echo nl2br( esc_html( $message['content'] ) ); ?>
+                    </div>
+                    <?php
+                }
+                ?>
             </div>
             <div class="wpgpt-chat-input-wrapper">
                 <textarea class="wpgpt-chat-input"></textarea>

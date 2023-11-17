@@ -5,6 +5,7 @@ class ChatGPT
 {
     protected array $message_history = [];
     protected string $system_message;
+    public string $model = "gpt-3.5-turbo";
 
     function __construct(
         protected string $api_key
@@ -18,7 +19,7 @@ class ChatGPT
         $this->system_message = $system_message;
     }
 
-    function send_message( string $message ): string {
+    function send_message( string $message, bool $save_history = false ): string {
         $messages = [];
 
         if( isset( $this->system_message ) ) {
@@ -35,7 +36,21 @@ class ChatGPT
             "content" => $message,
         ];
 
-        return $this->make_api_request( $messages );
+        $response = $this->make_api_request( $messages );
+
+        $messages[] = [
+            "role" => "assistant",
+            "content" => $response,
+        ];
+
+        if( $save_history ) {
+            if( $messages[0]["role"] === "system" ) {
+                unset( $messages[0] );
+            }
+            $_SESSION['message_history'] = $messages;
+        }
+
+        return $response;
     }
 
     protected function make_api_request( array $messages ): string {
@@ -47,13 +62,14 @@ class ChatGPT
         ] );
         curl_setopt( $ch, CURLOPT_POST, true );
         curl_setopt( $ch, CURLOPT_POSTFIELDS, '{
-            "model": "gpt-3.5-turbo",
+            "model": "'.$this->model.'",
             "messages": '.json_encode( $messages ).'
         }' );
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
 
         $response = curl_exec( $ch );
         error_log( "ChatGPT API request sent" );
+        error_log( "Model: " . $this->model );
 
         $json = json_decode( $response );
 

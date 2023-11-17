@@ -51,7 +51,7 @@
     function wpgpt_add_message( message, role ) {
         let message_box = `
         <div class="wpgpt-chat-message ${role}">
-            ${message}
+            ${nl2br(message)}
         </div>`
 
         $(".wpgpt-chat-messages").append( message_box );
@@ -59,5 +59,9 @@
         $(".wpgpt-chat-messages").animate({
             scrollTop: $(".wpgpt-chat-messages")[0].scrollHeight
         });
+    }
+
+    function nl2br( text ) {
+        return text.replace( /\n/g, "<br />" );
     }
 })(jQuery);
