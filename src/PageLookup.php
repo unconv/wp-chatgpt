@@ -31,7 +31,7 @@ Don't add any other data to the response, than JSON.";
     private function create_sitemap( array $exclude ): array {
         $pages = get_pages();
         $page_list = [];
-      
+
         foreach( $pages as $page ) {
             if( in_array( $page->ID, $exclude ) ) {
                 continue;
@@ -41,7 +41,7 @@ Don't add any other data to the response, than JSON.";
                 "name" => $page->post_title,
             ];
         }
-      
+
         return $page_list;
     }
 }

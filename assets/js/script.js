@@ -47,13 +47,13 @@
             }
           });
     }
-    
+
     function wpgpt_add_message( message, role ) {
         let message_box = `
         <div class="wpgpt-chat-message ${role}">
             ${message}
         </div>`
-    
+
         $(".wpgpt-chat-messages").append( message_box );
 
         $(".wpgpt-chat-messages").animate({

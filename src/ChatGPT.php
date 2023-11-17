@@ -18,23 +18,23 @@ class ChatGPT
         $this->system_message = $system_message;
     }
 
-    function send_message( string $message ): string {    
+    function send_message( string $message ): string {
         $messages = [];
-    
+
         if( isset( $this->system_message ) ) {
             $messages[] = [
                 "role" => "system",
                 "content" => $this->system_message,
             ];
         }
-    
+
         $messages = array_merge( $messages, $this->message_history );
-    
+
         $messages[] = [
             "role" => "user",
             "content" => $message,
         ];
-    
+
         return $this->make_api_request( $messages );
     }
 
@@ -51,16 +51,16 @@ class ChatGPT
             "messages": '.json_encode( $messages ).'
         }' );
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-    
+
         $response = curl_exec( $ch );
         error_log( "ChatGPT API request sent" );
-        
+
         $json = json_decode( $response );
-        
+
         if( isset( $json->choices[0]->message->content ) ) {
             return $json->choices[0]->message->content;
         }
-    
+
         error_log( sprintf( "Error in OpenAI request: %s", $response ) );
         throw new \Exception( "Error in OpenAI request" );
     }

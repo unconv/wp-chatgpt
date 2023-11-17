@@ -20,7 +20,7 @@ class PageGenerator {
 ```
 
 Prompt: Create a '.$page_name.' page for a website of the following description:
-    
+
 '.$this->website_description.'.
 
 Please respond with only the JSON. The JSON values should be HTML encoded.

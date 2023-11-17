@@ -7,7 +7,7 @@ class ImageAPI
         protected string $api_key
     ) {}
 
-    function create_image( string $desciption ): string {    
+    function create_image( string $desciption ): string {
         error_log( "Sending ImageAPI request" );
         $ch = curl_init( "https://api.openai.com/v1/images/generations" );
         curl_setopt( $ch, CURLOPT_HTTPHEADER, [
@@ -21,16 +21,16 @@ class ImageAPI
             "size" => "1024x1024",
         ] ) );
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-    
+
         $response = curl_exec( $ch );
         error_log( "ImageAPI request sent" );
-        
+
         $json = json_decode( $response );
-        
+
         if( isset( $json->data[0]->url ) ) {
             return $json->data[0]->url;
         }
-    
+
         error_log( sprintf( "Error in OpenAI request: %s", $response ) );
         throw new \Exception( "Error in OpenAI request" );
     }

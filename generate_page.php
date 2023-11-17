@@ -2,7 +2,7 @@
 /**
  * This script is used to generate the HTML for a new page
  * based on the given site description and page name.
- * 
+ *
  * It will generate both texts and images.
  */
 

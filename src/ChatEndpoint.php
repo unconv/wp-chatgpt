@@ -36,7 +36,7 @@ class ChatEndpoint
     public function parse_request( WP_REST_Request $request ) {
         $message = $request->get_param( 'message' );
         $message_history = $request->get_param( 'message_history' );
-    
+
         $this->chat_gpt->add_message_history( $message_history );
 
         $response = "NOT_FOUND";
@@ -61,11 +61,11 @@ class ChatEndpoint
                 break;
             }
         }
-    
+
         $response_data = [
             'message' => $response,
         ];
-    
+
         return new WP_REST_Response( $response_data, 200 );
     }
 }
