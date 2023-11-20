@@ -21,16 +21,15 @@ class SettingsPage {
             return false;
         }
 
-        if( isset( $_POST['wp_gpt_model'] ) ) {
-            update_option( "wp_gpt_settings", [
-                "model" => $_POST['wp_gpt_model'],
-            ] );
+        if( isset( $_POST['settings'] ) ) {
+            update_option( "wp_gpt_settings", $_POST['settings'] );
         }
     }
 
     public function render() {
         $settings = get_option( "wp_gpt_settings" );
-        $current_model = $settings["model"];
+        $current_model = $settings["model"] ?? "";
+        $api_key = $settings["api_key"] ?? "";
         $models = [
             "gpt-3.5-turbo",
             "gpt-3.5-turbo-16k",
@@ -40,17 +39,32 @@ class SettingsPage {
         <div class="wrap">
             <h2>WP-GPT Settings</h2>
             <form method="post" action="">
-                Model: <select name="wp_gpt_model">
-                    <?php
-                    foreach( $models as $model ) {
-                        $selected = ( $model === $current_model ? " selected" : "" );
-                        echo '<option'.$selected.'>'.$model.'</option>';
-                    }
-                    ?>
-                </select>
-                <?php
-                submit_button();
-                ?>
+                <table>
+                    <tr>
+                        <td>Model:</td>
+                        <td>
+                            <select name="settings[model]">
+                                <?php
+                                foreach( $models as $model ) {
+                                    $selected = ( $model === $current_model ? " selected" : "" );
+                                    echo '<option'.$selected.'>'.$model.'</option>';
+                                }
+                                ?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>API-key:</td>
+                        <td>
+                            <input type="password" name="settings[api_key]" value="<?php echo esc_attr( $api_key ); ?>" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <button class="button button-primary">Save settings</button>
+                        </td>
+                    </tr>
+                </div>
             </form>
         </div>
         <?php

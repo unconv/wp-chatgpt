@@ -26,8 +26,11 @@ class Plugin
 
     }
 
-    public static function init( string $api_key ) {
+    public static function init() {
         if( ! isset( self::$instance ) ) {
+            $settings = get_option( "wp_gpt_settings" );
+            $api_key = $settings["api_key"] ?? getenv( "OPENAI_API_KEY" );
+
             self::$instance = new self( $api_key );
         }
 

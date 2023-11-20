@@ -8,6 +8,4 @@
 
 require( __DIR__ . "/autoload.php" );
 
-$api_key = require( __DIR__ . "/openai_key.php" );
-
-Unconv\WPChatGPT\Plugin::init( $api_key );
+Unconv\WPChatGPT\Plugin::init();
