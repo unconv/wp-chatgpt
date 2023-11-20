@@ -54,7 +54,6 @@ class ChatGPT
     }
 
     protected function make_api_request( array $messages ): string {
-        error_log( "Sending ChatGPT API request" );
         $ch = curl_init( "https://api.openai.com/v1/chat/completions" );
         curl_setopt( $ch, CURLOPT_HTTPHEADER, [
             "Content-Type: application/json",
@@ -68,8 +67,6 @@ class ChatGPT
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
 
         $response = curl_exec( $ch );
-        error_log( "ChatGPT API request sent" );
-        error_log( "Model: " . $this->model );
 
         $json = json_decode( $response );
 
